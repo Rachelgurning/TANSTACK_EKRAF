@@ -4,7 +4,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { getProducts } from "@/lib/server/products";
 import { getUsers } from "@/lib/server/users";
 
-export const Route = createFileRoute("/admin/dashboard")({
+export const Route = createFileRoute("/_admin/dashboard")({
 	component: Dashboard,
 });
 

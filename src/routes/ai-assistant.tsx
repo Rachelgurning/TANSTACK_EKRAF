@@ -119,5 +119,5 @@ function AIAssistant() {
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <label className="block space-y-2"><span className="block text-sm font-semibold text-[var(--sea-ink)]">{label}</span>{children}</label>;
+  return <div className="block space-y-2"><span className="block text-sm font-semibold text-[var(--sea-ink)]">{label}</span>{children}</div>;
 }

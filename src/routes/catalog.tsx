@@ -1,0 +1,157 @@
+import { getProducts } from "@/lib/server/products";
+import { useQuery } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { ArrowUpRight, Package, Plus, Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { authClient } from "#/lib/auth-client";
+export const Route = createFileRoute("/catalog")({ component: Products });
+const money = (v: number) =>
+	new Intl.NumberFormat("id-ID", {
+		style: "currency",
+		currency: "IDR",
+		maximumFractionDigits: 0,
+	}).format(v);
+const images = [
+	"https://images.unsplash.com/photo-1604881988758-f76ad2f7adec?auto=format&fit=crop&w=900&q=85",
+	"https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85",
+	"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=85",
+	"https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=900&q=85",
+];
+function Products() {
+	const { data: session } = authClient.useSession();
+	const [search, setSearch] = useState("");
+	const [sort, setSort] = useState("featured");
+	const q = useQuery({ queryKey: ["products"], queryFn: () => getProducts() });
+	const items = useMemo(() => {
+		const list = (q.data ?? []).filter((p) =>
+			`${p.name} ${p.description}`.toLowerCase().includes(search.toLowerCase()),
+		);
+		if (sort === "price-low") list.sort((a, b) => a.price - b.price);
+		if (sort === "price-high") list.sort((a, b) => b.price - a.price);
+		return list;
+	}, [q.data, search, sort]);
+	return (
+		<main className="page-wrap page-section">
+			<section className="catalog-intro">
+				<div>
+					<span className="eyebrow eyebrow-red">Pasar kreatif Samosir</span>
+					<h1>
+						Temukan karya yang <em>punya cerita.</em>
+					</h1>
+					<p>
+						Dari kerajinan tangan sampai rasa khas tanah Batak, jelajahi produk pilihan dari usaha
+						lokal.
+					</p>
+				</div>
+				<div className="catalog-count">
+					<strong>{q.data?.length ?? "—"}</strong>
+					<span>
+						produk lokal
+						<br />
+						di etalase
+					</span>
+				</div>
+			</section>
+			<section className="catalog-toolbar">
+				<label className="search-box">
+					<Search size={19} />
+					<input
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+						placeholder="Cari produk atau nama usaha…"
+						aria-label="Cari produk"
+					/>
+				</label>
+				<label className="sort-box">
+					<SlidersHorizontal size={17} />
+					<select
+						value={sort}
+						onChange={(e) => setSort(e.target.value)}
+						aria-label="Urutkan produk"
+					>
+						<option value="featured">Pilihan untukmu</option>
+						<option value="price-low">Harga terendah</option>
+						<option value="price-high">Harga tertinggi</option>
+					</select>
+				</label>
+				{session?.user && (
+					<Link to="/products/new" className="button button-primary">
+						<Plus size={17} /> Tambah produk
+					</Link>
+				)}
+			</section>
+			{q.isError && (
+				<div className="inline-error">
+					Produk belum bisa dimuat. Pastikan server berjalan, lalu coba lagi.
+				</div>
+			)}
+			{q.isPending ? (
+				<div className="loading-grid">
+					{[1, 2, 3, 4].map((n) => (
+						<div key={n} className="skeleton-card" />
+					))}
+				</div>
+			) : items.length === 0 ? (
+				<div className="empty-state catalog-empty">
+					<Package size={34} />
+					<strong>{search ? "Produk tidak ditemukan" : "Etalase sedang disiapkan"}</strong>
+					<p>
+						{search
+							? "Coba kata kunci lain."
+							: "Produk baru akan muncul di sini. Masuk untuk mulai mengelola etalase."}
+					</p>
+					{!session?.user && (
+						<Link to="/register" className="button button-primary">
+							Buat akun penjual
+						</Link>
+					)}
+				</div>
+			) : (
+				<div className="catalog-grid">
+					{items.map((p, i) => (
+						<article className="catalog-card" key={p.id}>
+							<Link
+								to="/products/$productId"
+								params={{ productId: p.id }}
+								className="catalog-image"
+							>
+								<img src={images[i % images.length]} alt={p.name} />
+								<span className="catalog-badge">{i === 0 ? "Pilihan lokal" : "Karya Samosir"}</span>
+								<span className="catalog-arrow">
+									<ArrowUpRight size={18} />
+								</span>
+							</Link>
+							<div className="catalog-card-body">
+								<span className="product-seller">UMKM Samosir</span>
+								<Link
+									to="/products/$productId"
+									params={{ productId: p.id }}
+									className="catalog-title"
+								>
+									{p.name}
+								</Link>
+								<p>{p.description}</p>
+								<div className="catalog-card-bottom">
+									<strong>{money(p.price)}</strong>
+									<span>{p.stock > 0 ? "Tersedia" : "Stok habis"}</span>
+								</div>
+							</div>
+						</article>
+					))}
+				</div>
+			)}
+			<section className="catalog-help">
+				<span className="catalog-help-icon">
+					<Sparkles size={21} />
+				</span>
+				<div>
+					<strong>Butuh bantuan menulis promosi?</strong>
+					<p>Biarkan AI membantu merangkai cerita produkmu dalam Bahasa Indonesia.</p>
+				</div>
+				<Link to="/ai-assistant" className="text-link">
+					Coba bantuan AI <ArrowUpRight size={16} />
+				</Link>
+			</section>
+		</main>
+	);
+}

@@ -6,7 +6,7 @@ import { requireAdmin } from "@/lib/session";
 
 export const userRoleSchema = z.object({
 	userId: z.string(),
-	role: z.enum(["admin", "user"]),
+	role: z.enum(["admin", "seller", "buyer"]),
 });
 
 export const getUsers = createServerFn({ method: "GET" }).handler(async () => {

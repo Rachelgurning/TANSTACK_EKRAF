@@ -11,18 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/_admin'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as QrPartnersRouteImport } from './routes/qr-partners'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as AdminDashboardRouteImport } from './routes/_admin.dashboard'
 import { Route as AdminProductsRouteImport } from './routes/_admin.products'
 import { Route as AdminUsersRouteImport } from './routes/_admin.users'
-import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
@@ -41,19 +40,14 @@ const AdminRoute = AdminRouteImport.update({
   id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AiAssistantRoute = AiAssistantRouteImport.update({
   id: '/ai-assistant',
   path: '/ai-assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const CatalogRoute = CatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeaturesRoute = FeaturesRouteImport.update({
@@ -86,6 +80,11 @@ const SetupRoute = SetupRouteImport.update({
   path: '/setup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProductsRoute = AdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -95,11 +94,6 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
   getParentRoute: () => AdminRoute,
-} as any)
-const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   id: '/demo/better-auth',
@@ -144,18 +138,17 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
-  '/dashboard': typeof DashboardRoute
+  '/catalog': typeof CatalogRoute
   '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/qr-partners': typeof QrPartnersRoute
   '/register': typeof RegisterRoute
   '/setup': typeof SetupRoute
+  '/dashboard': typeof AdminDashboardRoute
   '/products': typeof AdminProductsRoute
   '/users': typeof AdminUsersRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -167,18 +160,17 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
-  '/dashboard': typeof DashboardRoute
+  '/catalog': typeof CatalogRoute
   '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/qr-partners': typeof QrPartnersRoute
   '/register': typeof RegisterRoute
   '/setup': typeof SetupRoute
+  '/dashboard': typeof AdminDashboardRoute
   '/products': typeof ProductsIndexRoute
   '/users': typeof UsersIndexRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -190,18 +182,17 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
-  '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
-  '/dashboard': typeof DashboardRoute
+  '/catalog': typeof CatalogRoute
   '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/qr-partners': typeof QrPartnersRoute
   '/register': typeof RegisterRoute
   '/setup': typeof SetupRoute
+  '/_admin/dashboard': typeof AdminDashboardRoute
   '/_admin/products': typeof AdminProductsRoute
   '/_admin/users': typeof AdminUsersRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -215,18 +206,17 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
     | '/ai-assistant'
-    | '/dashboard'
+    | '/catalog'
     | '/features'
     | '/login'
     | '/pricing'
     | '/qr-partners'
     | '/register'
     | '/setup'
+    | '/dashboard'
     | '/products'
     | '/users'
-    | '/admin/dashboard'
     | '/demo/better-auth'
     | '/products/$productId'
     | '/products/new'
@@ -238,18 +228,17 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
     | '/ai-assistant'
-    | '/dashboard'
+    | '/catalog'
     | '/features'
     | '/login'
     | '/pricing'
     | '/qr-partners'
     | '/register'
     | '/setup'
+    | '/dashboard'
     | '/products'
     | '/users'
-    | '/admin/dashboard'
     | '/demo/better-auth'
     | '/products/$productId'
     | '/products/new'
@@ -260,18 +249,17 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_admin'
-    | '/about'
     | '/ai-assistant'
-    | '/dashboard'
+    | '/catalog'
     | '/features'
     | '/login'
     | '/pricing'
     | '/qr-partners'
     | '/register'
     | '/setup'
+    | '/_admin/dashboard'
     | '/_admin/products'
     | '/_admin/users'
-    | '/admin/dashboard'
     | '/demo/better-auth'
     | '/products/$productId'
     | '/products/new'
@@ -285,16 +273,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AboutRoute: typeof AboutRoute
   AiAssistantRoute: typeof AiAssistantRoute
-  DashboardRoute: typeof DashboardRoute
+  CatalogRoute: typeof CatalogRoute
   FeaturesRoute: typeof FeaturesRoute
   LoginRoute: typeof LoginRoute
   PricingRoute: typeof PricingRoute
   QrPartnersRoute: typeof QrPartnersRoute
   RegisterRoute: typeof RegisterRoute
   SetupRoute: typeof SetupRoute
-  AdminDashboardRoute: typeof AdminDashboardRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ProductsNewRoute: typeof ProductsNewRoute
@@ -321,13 +307,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/ai-assistant': {
       id: '/ai-assistant'
       path: '/ai-assistant'
@@ -335,11 +314,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiAssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/catalog': {
+      id: '/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof CatalogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/features': {
@@ -384,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_admin/dashboard': {
+      id: '/_admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/products': {
       id: '/_admin/products'
       path: '/products'
@@ -397,13 +383,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/users'
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
-    }
-    '/admin/dashboard': {
-      id: '/admin/dashboard'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/demo/better-auth': {
       id: '/demo/better-auth'
@@ -465,11 +444,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminUsersRoute: typeof AdminUsersRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminUsersRoute: AdminUsersRoute,
 }
@@ -479,16 +460,14 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  AboutRoute: AboutRoute,
   AiAssistantRoute: AiAssistantRoute,
-  DashboardRoute: DashboardRoute,
+  CatalogRoute: CatalogRoute,
   FeaturesRoute: FeaturesRoute,
   LoginRoute: LoginRoute,
   PricingRoute: PricingRoute,
   QrPartnersRoute: QrPartnersRoute,
   RegisterRoute: RegisterRoute,
   SetupRoute: SetupRoute,
-  AdminDashboardRoute: AdminDashboardRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ProductsNewRoute: ProductsNewRoute,
