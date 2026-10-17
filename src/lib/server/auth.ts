@@ -20,6 +20,9 @@ export const getServerSession = createServerFn({ method: "GET" }).handler(async 
  * Called from the client via `useServerFn(seedAdmin)` on the /setup page.
  */
 export const seedAdmin = createServerFn({ method: "POST" }).handler(async () => {
+	if (process.env.NODE_ENV === "production") {
+		throw new Error("Pembuatan akun admin awal hanya diizinkan saat pengembangan lokal.");
+	}
 	const hasAdmin = db.user.some((u) => {
 		const role = db.userRole.find((r) => r.userId === u.id)?.role;
 		return role === "admin";
@@ -46,34 +49,6 @@ export const seedAdmin = createServerFn({ method: "POST" }).handler(async () => 
 			db.userRole.push({ userId: adminUser.id, role: "admin" });
 		}
 	}
-
-	const now = new Date().toISOString();
-	const products = [
-		{
-			name: "Starter Kit",
-			description: "Everything you need to begin.",
-			price: 49,
-			stock: 12,
-		},
-		{
-			name: "Pro Plan",
-			description: "For growing teams.",
-			price: 149,
-			stock: 5,
-		},
-		{
-			name: "Enterprise",
-			description: "Self-hosted, full support.",
-			price: 499,
-			stock: 1,
-		},
-	].map((p) => ({
-		id: crypto.randomUUID(),
-		...p,
-		createdAt: now,
-		updatedAt: now,
-	}));
-	db.product.push(...products);
 
 	return { ok: true, alreadySeeded: false, admin: SEED_ADMIN_EMAIL };
 });

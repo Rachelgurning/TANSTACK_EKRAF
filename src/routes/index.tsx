@@ -1,69 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-
-import { authClient } from "#/lib/auth-client";
-
-export const Route = createFileRoute("/")({ component: Home });
-
-function Home() {
-	const { data: session, isPending } = authClient.useSession();
-
-	if (isPending) {
-		return (
-			<main className="page-wrap px-4 py-12">
-				<p className="text-[var(--sea-ink-soft)]">Loading session...</p>
-			</main>
-		);
-	}
-
-	return (
-		<main className="page-wrap px-4 py-12">
-			<section className="island-shell rounded-2xl p-6 sm:p-8">
-				<p className="island-kicker mb-2">Ekraf Dashboard</p>
-				<h1 className="display-title mb-3 text-4xl font-bold text-[var(--sea-ink)] sm:text-5xl">
-					Admin Dashboard
-				</h1>
-				<p className="m-0 max-w-3xl text-base leading-8 text-[var(--sea-ink-soft)]">
-					Secure product and user administration backed by Better Auth and TanStack Start.
-				</p>
-
-				{session?.user ? (
-					<div className="mt-8 flex flex-wrap gap-4">
-						<div className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] p-4">
-							<p className="m-0 text-sm text-[var(--sea-ink-soft)]">
-								Signed in as <span className="font-semibold">{session.user.email}</span>
-							</p>
-							<p className="m-0 mt-1 text-xs text-[var(--sea-ink-soft)]">
-								{session.user.email === "admin@example.com" ? "Administrator" : "User"}
-							</p>
-						</div>
-						<Link
-							to="/dashboard"
-							className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] px-4 py-3 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-						>
-							Open Dashboard
-						</Link>
-					</div>
-				) : (
-					<div className="mt-8 flex flex-wrap gap-4">
-						<Link
-							to="/demo/better-auth"
-							className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] px-4 py-3 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-						>
-							Sign in / Sign up
-						</Link>
-						<p className="m-0 mt-3 sm:mt-0 text-sm text-[var(--sea-ink-soft)]">
-							Create an account, then{" "}
-							<Link
-								to="/setup"
-								className="underline underline-offset-4 font-medium hover:text-[var(--sea-ink)]"
-							>
-								seed the admin account
-							</Link>
-							to unlock product and user CRUD.
-						</p>
-					</div>
-				)}
-			</section>
-		</main>
-	);
-}
+import { ArrowRight, ArrowUpRight, Check, Leaf, MapPin, PackageCheck, Sparkles, Store, TrendingUp } from "lucide-react";
+export const Route=createFileRoute("/")({component:Home});
+const products=[{name:"Kain ulos motif ragi hotang",seller:"Tenun Boru Ni Raja",price:"Rp285.000",image:"https://images.unsplash.com/photo-1604881988758-f76ad2f7adec?auto=format&fit=crop&w=900&q=85",tag:"Pilihan pengunjung"},{name:"Kopi arabika Samosir",seller:"Kopi Pusuk Buhit",price:"Rp68.000",image:"https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85",tag:"Paling dicari"},{name:"Tas anyaman pandan",seller:"Karya Tepi Danau",price:"Rp125.000",image:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=85",tag:"Buatan tangan"}];
+function Home(){return <main><section className="hero-section"><div className="hero-pattern"/><div className="page-wrap hero-grid"><div className="hero-copy"><span className="eyebrow"><span className="eyebrow-dot"/> Ruang tumbuh UMKM Samosir</span><h1>Pasar Digital Cerdas untuk <em>UMKM Samosir.</em></h1><p>Temukan produk lokal terbaik dari kopi, kerajinan, hingga oleh-oleh khas. Setiap pembelian membantu usaha warga Samosir tumbuh lebih kuat.</p><div className="hero-actions"><Link to="/products" className="button button-primary">Jelajahi produk lokal <ArrowRight size={18}/></Link><Link to="/register" className="button button-outline">Saya punya usaha <ArrowUpRight size={17}/></Link></div><div className="hero-proof"><div className="proof-avatars"><span>ᚷ</span><span>ᚹ</span><span>ᚾ</span></div><p><strong>Usaha lokal, dampak nyata.</strong><br/><span>Mulai tumbuh bersama komunitas.</span></p><span className="proof-line"/></div></div><div className="hero-visual"><div className="hero-image-main"><img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=90" alt="Kerajinan tangan dan produk kreatif lokal"/><div className="image-shade"/><div className="hero-image-caption"><span className="caption-icon"><MapPin size={16}/></span><div><strong>Dari Samosir, untuk semua</strong><small>Karya lokal yang punya makna</small></div></div></div><div className="floating-card floating-ai"><span className="floating-icon"><Sparkles size={18}/></span><div><strong>Promosi dibantu AI</strong><small>Lebih mudah, lebih cepat</small></div><span className="floating-check"><Check size={14}/></span></div><div className="floating-card floating-local"><span className="local-icon"><Leaf size={19}/></span><div><strong>100% semangat lokal</strong><small>Usaha kecil, cerita besar</small></div></div><div className="hero-stamp">DARI<br/><b>TOBA</b></div></div></div></section>
+<section className="trust-strip"><div className="page-wrap trust-inner"><span><Store size={18}/> Untuk usaha lokal</span><span><Sparkles size={18}/> AI yang mudah dipakai</span><span><MapPin size={18}/> Terhubung ke wisata</span><span><PackageCheck size={18}/> Produk punya cerita</span></div></section>
+<section className="section-block"><div className="page-wrap"><div className="section-heading"><div><span className="eyebrow eyebrow-red">Pilihan dari Samosir</span><h2>Temukan sesuatu yang <em>bermakna.</em></h2><p>Produk pilihan dari tangan-tangan kreatif di sekitar Danau Toba.</p></div><Link to="/products" className="text-link">Lihat semua produk <ArrowRight size={17}/></Link></div><div className="product-grid">{products.map((item,i)=><Link to="/products" key={item.name} className="product-card"><div className="product-image"><img src={item.image} alt={item.name}/><span className="product-tag">{item.tag}</span><span className="product-number">0{i+1}</span></div><div className="product-info"><span className="product-seller">{item.seller}</span><h3>{item.name}</h3><div className="product-bottom"><strong>{item.price}</strong><span className="round-arrow"><ArrowUpRight size={17}/></span></div></div></Link>)}</div></div></section>
+<section className="section-block section-tint"><div className="page-wrap feature-grid"><div className="feature-art"><div className="feature-art-circle circle-one"/><div className="feature-art-circle circle-two"/><div className="feature-quote"><span className="quote-mark">“</span><p>Produkmu punya cerita. Kami bantu ceritakan dengan lebih menarik.</p><small>Teman tumbuh UMKM Samosir</small></div><div className="feature-mini-card"><Sparkles size={17}/><span>Ide promosi baru</span><b>+3</b></div></div><div className="feature-copy"><span className="eyebrow eyebrow-red">Teknologi yang membumi</span><h2>Jualan online tidak harus <em>membingungkan.</em></h2><p>OnanAI dibuat untuk membantu pelaku usaha mulai dari langkah kecil. Isi informasi produk, pilih gaya bahasa, lalu dapatkan ide promosi yang siap kamu periksa dan pakai.</p><div className="feature-list"><div><span className="feature-check"><Check size={16}/></span><div><strong>Konten promosi lebih cepat</strong><p>Buat judul dan deskripsi tanpa mulai dari halaman kosong.</p></div></div><div><span className="feature-check"><Check size={16}/></span><div><strong>Produk mudah ditemukan</strong><p>Kenalkan karya lokal kepada wisatawan dan pembeli baru.</p></div></div><div><span className="feature-check"><Check size={16}/></span><div><strong>Langkah sederhana</strong><p>Bahasa yang jelas, tombol yang mudah dipahami.</p></div></div></div><Link to="/ai-assistant" className="button button-primary">Coba bantuan AI <ArrowRight size={17}/></Link></div></div></section>
+<section className="cta-section"><div className="page-wrap cta-inner"><div><span className="eyebrow eyebrow-light">Mari tumbuh bersama</span><h2>Punya produk lokal yang ingin dikenal lebih luas?</h2><p>Mulai kenalkan usahamu hari ini. Pelan-pelan, tapi punya arah.</p></div><Link to="/register" className="button button-light">Daftarkan usaha <ArrowRight size={18}/></Link><div className="cta-gorga" aria-hidden="true">ᯤ ᯓ ᯽ ᯓ ᯤ</div></div></section></main>}

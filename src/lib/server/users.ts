@@ -24,7 +24,27 @@ export const getUsers = createServerFn({ method: "GET" }).handler(async () => {
 export const updateUserRole = createServerFn({ method: "POST" })
 	.validator(userRoleSchema)
 	.handler(async ({ data }) => {
-		await requireAdmin();
+		const { user: actor } = await requireAdmin();
+		const target = db.user.find((item) => item.id === data.userId);
+		if (!target) {
+			const err = new Error("Pengguna tidak ditemukan.") as Error & { status?: number };
+			err.status = 404;
+			throw err;
+		}
+		const currentRole = getUserRole(data.userId);
+		if (currentRole === "admin" && data.role !== "admin") {
+			const adminCount = db.userRole.filter((item) => item.role === "admin").length;
+			if (adminCount <= 1) {
+				const err = new Error("Peran admin terakhir tidak dapat diturunkan.") as Error & { status?: number };
+				err.status = 400;
+				throw err;
+			}
+			if (actor.id === data.userId) {
+				const err = new Error("Kamu tidak dapat menurunkan peran admin akun sendiri.") as Error & { status?: number };
+				err.status = 400;
+				throw err;
+			}
+		}
 		setUserRole(data.userId, data.role);
 		return { ok: true };
 	});
@@ -32,7 +52,18 @@ export const updateUserRole = createServerFn({ method: "POST" })
 export const deleteUser = createServerFn({ method: "POST" })
 	.validator(z.object({ userId: z.string() }))
 	.handler(async ({ data }) => {
-		await requireAdmin();
+		const { user: actor } = await requireAdmin();
+		if (actor.id === data.userId) {
+			const err = new Error("Kamu tidak dapat menghapus akun sendiri saat sedang masuk.") as Error & { status?: number };
+			err.status = 400;
+			throw err;
+		}
+		const target = db.user.find((item) => item.id === data.userId);
+		if (!target) {
+			const err = new Error("Pengguna tidak ditemukan.") as Error & { status?: number };
+			err.status = 404;
+			throw err;
+		}
 		// Prevent removing the last administrator so the app never locks itself out.
 		const role = getUserRole(data.userId);
 		if (role === "admin") {

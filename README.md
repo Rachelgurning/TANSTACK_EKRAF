@@ -1,3 +1,50 @@
+# OnanAI — Pasar Kreatif Samosir
+
+OnanAI adalah prototipe marketplace digital untuk membantu UMKM lokal di sekitar Danau Toba mengenalkan produk, membuat konten promosi dengan bantuan AI, dan terhubung dengan mitra hotel atau tempat wisata.
+
+## Menjalankan proyek
+
+```bash
+bun install
+cp .env.example .env.local
+# Isi environment variables pada .env.local
+bun run generate-routes
+bun dev
+```
+
+Buka `http://localhost:3000`. Antarmuka utama tersedia di beranda, `/products`, `/login`, `/register`, `/dashboard`, `/ai-assistant`, dan `/qr-partners`.
+
+## Environment variables
+
+- `BETTER_AUTH_URL`: `http://localhost:3000` saat pengembangan; ubah menjadi URL Vercel saat produksi.
+- `BETTER_AUTH_SECRET`: rahasia acak yang kuat.
+- `OPENAI_API_KEY`: kunci API dari OpenAI Platform, hanya disimpan di server.
+- `OPENAI_MODEL`: model yang digunakan, bawaan `gpt-4.1-mini`.
+
+Jangan commit `.env.local` atau membagikan kunci rahasia. Langganan ChatGPT tidak otomatis mencakup saldo API.
+
+## Pemeriksaan dan build
+
+```bash
+bun run generate-routes
+bun run lint
+bun run build
+```
+
+## Deployment Vercel
+
+1. Unggah proyek ke repositori Git.
+2. Impor repositori melalui Vercel dan pertahankan deteksi TanStack Start.
+3. Tambahkan variabel environment produksi pada pengaturan Vercel. Jangan mengunggah `.env.local`.
+4. Atur `BETTER_AUTH_URL` ke URL HTTPS deployment yang benar dan gunakan `BETTER_AUTH_SECRET` baru.
+5. Deploy, lalu uji login, pendaftaran, katalog, detail produk, dasbor, dan halaman AI Studio.
+
+## Catatan prototipe
+
+Struktur TanStack Start dan file starter yang ada tetap dipertahankan. Penyimpanan autentikasi serta produk mengikuti implementasi in-memory dari starter, sehingga data pengguna/sesi dan perubahan katalog tidak dijamin bertahan setelah cold start atau redeploy pada Vercel. Form minat mitra QR juga masih berupa prototipe sisi klien. Sebelum dipakai untuk transaksi nyata, hubungkan penyimpanan persisten, proses pemesanan, dan pengiriman data mitra ke layanan server yang sesuai. Lihat `NOTES.md` untuk daftar perubahan dan batasan.
+
+---
+
 Welcome to your new TanStack Start app!
 
 # Getting Started
@@ -243,3 +290,17 @@ Files prefixed with `demo` can be safely deleted. They are there to provide a st
 You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
 
 For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+
+
+## OpenAI AI Studio
+
+This project includes an AI Studio at `/ai-assistant` to draft Indonesian product copy for creative-economy products. The API request is made from a TanStack Start server function; the API key is server-only and must never be placed in a `VITE_` variable.
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `BETTER_AUTH_URL` and generate `BETTER_AUTH_SECRET` as described above.
+3. Set `OPENAI_API_KEY` to an API key from your OpenAI platform account. API usage may incur charges and requires available API billing/credits.
+4. Optionally set `OPENAI_MODEL` (defaults to `gpt-4.1-mini`).
+5. Run `bun install`, then `bun run generate-routes`, then `bun dev`.
+6. Open `http://localhost:3000/ai-assistant`.
+
+The AI Studio creates editable draft copy only; it does not automatically save or publish products. Existing product and user CRUD remain separate. The current app uses in-memory storage, so records reset when the server process restarts or is redeployed. Use a persistent database before production use.

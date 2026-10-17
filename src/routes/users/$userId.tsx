@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, redirect, useParams } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { Role } from "@/lib/db";
 import { getServerSession } from "@/lib/server/auth";
@@ -30,6 +30,11 @@ function UserDetail() {
 		queryFn: async () => getUsers(),
 	});
 	const user = usersQuery.data?.find((u) => u.id === userId);
+	const [localRole, setLocalRole] = useState<Role>("user");
+	const [message, setMessage] = useState("");
+	useEffect(() => {
+		if (user) setLocalRole(user.role);
+	}, [user?.id, user?.role]);
 
 	if (usersQuery.isPending) {
 		return (
@@ -45,9 +50,6 @@ function UserDetail() {
 			</main>
 		);
 	}
-
-	const [localRole, setLocalRole] = useState<Role>(user.role);
-	const [message, setMessage] = useState("");
 
 	const handleRoleChange = async (next: Role) => {
 		if (next === localRole) return;
