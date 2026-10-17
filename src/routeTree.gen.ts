@@ -14,7 +14,9 @@ import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as QrPartnersRouteImport } from './routes/qr-partners'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SetupRouteImport } from './routes/setup'
@@ -54,9 +56,19 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QrPartnersRoute = QrPartnersRouteImport.update({
@@ -135,7 +147,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/dashboard': typeof DashboardRoute
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/qr-partners': typeof QrPartnersRoute
   '/register': typeof RegisterRoute
   '/setup': typeof SetupRoute
@@ -156,7 +170,9 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/dashboard': typeof DashboardRoute
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/qr-partners': typeof QrPartnersRoute
   '/register': typeof RegisterRoute
   '/setup': typeof SetupRoute
@@ -177,7 +193,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/dashboard': typeof DashboardRoute
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/qr-partners': typeof QrPartnersRoute
   '/register': typeof RegisterRoute
   '/setup': typeof SetupRoute
@@ -200,7 +218,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai-assistant'
     | '/dashboard'
+    | '/features'
     | '/login'
+    | '/pricing'
     | '/qr-partners'
     | '/register'
     | '/setup'
@@ -221,7 +241,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai-assistant'
     | '/dashboard'
+    | '/features'
     | '/login'
+    | '/pricing'
     | '/qr-partners'
     | '/register'
     | '/setup'
@@ -241,7 +263,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai-assistant'
     | '/dashboard'
+    | '/features'
     | '/login'
+    | '/pricing'
     | '/qr-partners'
     | '/register'
     | '/setup'
@@ -264,7 +288,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AiAssistantRoute: typeof AiAssistantRoute
   DashboardRoute: typeof DashboardRoute
+  FeaturesRoute: typeof FeaturesRoute
   LoginRoute: typeof LoginRoute
+  PricingRoute: typeof PricingRoute
   QrPartnersRoute: typeof QrPartnersRoute
   RegisterRoute: typeof RegisterRoute
   SetupRoute: typeof SetupRoute
@@ -316,11 +342,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/qr-partners': {
@@ -442,7 +482,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AiAssistantRoute: AiAssistantRoute,
   DashboardRoute: DashboardRoute,
+  FeaturesRoute: FeaturesRoute,
   LoginRoute: LoginRoute,
+  PricingRoute: PricingRoute,
   QrPartnersRoute: QrPartnersRoute,
   RegisterRoute: RegisterRoute,
   SetupRoute: SetupRoute,

@@ -1,12 +1,10 @@
-# Revamp summary
+# ONAN AI build summary
 
-- Replaced scaffold-style global navigation with responsive Ekraf branding and icon navigation; removed About and demo authentication route files.
-- Made `/login` the primary authentication page and added stable selectors for automated login tests.
-- Fixed product field updates by forcing the form component to refresh after TanStack Form field updates.
-- Added optional image URL input and preview, persists image URL on create/edit, and displays thumbnails in the product list.
-- Added bounded server-side Zod validation for product fields and image URL/data URL size/protocol.
-- Added admin-only route guard for user management and server-side protections against self-demotion, self-deletion, and last-admin removal.
-- Enabled Better Auth login rate limiting and explicit session cookie attributes.
-- Added `NOTES.md` with the failure analysis and security rationale.
+- Rebranded the application as ONAN AI with indigo/electric-blue design tokens, responsive public navigation, premium landing-page composition, and a branded footer.
+- Added public `/features`, `/pricing`, and `/about` routes plus a full marketing landing page at `/`.
+- Made `/login` the sole sign-in/sign-up route and updated protected-route redirects and setup links; removed the scaffold demo auth route.
+- Preserved the TanStack Start + React architecture, TanStack Router file routes, TanStack Query/server functions, Better Auth `memoryAdapter`, and in-memory products/roles.
+- Preserved the existing product image URL/preview, client form typing improvements, server-side Zod validation, admin authorization, self-demotion/self-deletion/last-admin protections, login rate limiting, and secure session cookie settings.
+- Added `NOTES.md` and reworked `README.md` for ONAN AI setup and routes.
 
-Data is still intentionally in memory. No database was added.
+The app intentionally has no persistent database. Product pricing shown on the public marketing pages is illustrative, not live billing. Run `bunx tsr generate`, `bun run lint`, and `bun run build` in a Bun-enabled environment before submission.
